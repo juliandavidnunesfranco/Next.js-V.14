@@ -1,4 +1,5 @@
 import { sql } from '@vercel/postgres';
+import { unstable_noStore as noStore } from 'next/cache';
 import {
   CustomerField,
   CustomersTable,
@@ -13,13 +14,14 @@ import { formatCurrency } from './utils';
 export async function fetchRevenue() {
   // Add noStore() here prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
+  noStore();
 
   try {
     // Artificially delay a reponse for demo purposes.
     // Don't do this in real life :)
 
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+     //console.log('Fetching revenue data...');
+    // await new Promise((resolve) => setTimeout(resolve, 3000));// Artificially delay a reponse for demo purposes.
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
@@ -33,7 +35,9 @@ export async function fetchRevenue() {
 }
 
 export async function fetchLatestInvoices() {
+  noStore();
   try {
+    //await new Promise((resolve) => setTimeout(resolve, 7000)); // Artificially delay a response for demo purposes.
     const data = await sql<LatestInvoiceRaw>`
       SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
       FROM invoices
@@ -53,6 +57,8 @@ export async function fetchLatestInvoices() {
 }
 
 export async function fetchCardData() {
+  noStore();
+
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -63,7 +69,7 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) AS "paid",
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
-
+    //await new Promise((resolve) => setTimeout(resolve, 7000)); // Artificially delay a response for demo purposes.
     const data = await Promise.all([
       invoiceCountPromise,
       customerCountPromise,
@@ -88,10 +94,12 @@ export async function fetchCardData() {
 }
 
 const ITEMS_PER_PAGE = 6;
+
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -124,6 +132,8 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
+  noStore();
+  
   try {
     const count = await sql`SELECT COUNT(*)
     FROM invoices
@@ -145,6 +155,9 @@ export async function fetchInvoicesPages(query: string) {
 }
 
 export async function fetchInvoiceById(id: string) {
+  noStore();
+
+
   try {
     const data = await sql<InvoiceForm>`
       SELECT
@@ -169,6 +182,7 @@ export async function fetchInvoiceById(id: string) {
 }
 
 export async function fetchCustomers() {
+  noStore();
   try {
     const data = await sql<CustomerField>`
       SELECT
@@ -187,6 +201,7 @@ export async function fetchCustomers() {
 }
 
 export async function fetchFilteredCustomers(query: string) {
+  noStore();
   try {
     const data = await sql<CustomersTable>`
 		SELECT
