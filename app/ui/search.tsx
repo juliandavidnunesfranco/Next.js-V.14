@@ -29,7 +29,7 @@ export default function Search() {
       </label>
       <input
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-        placeholder="Search invoices..."
+        placeholder='Search ...'
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get('query')?.toString()} // for default the query is url
                                                             // este es el valor nativo proveniente de la url y no se esta 
