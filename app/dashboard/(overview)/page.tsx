@@ -1,30 +1,38 @@
-import CardWrapper, { Card } from '@/app/ui/dashboard/cards';
-import RevenueChart from '@/app/ui/dashboard/revenue-chart';
-import LatestInvoices from '@/app/ui/dashboard/latest-invoices';
-import { lusitana } from '@/app/ui/fonts';
-//import {  fetchCardData } from '@/app/lib/data' ; fetchRevenue, fetchLatestInvoices, 
-import {Suspense} from 'react'
-import { RevenueChartSkeleton, LatestInvoicesSkeleton, CardsSkeleton } from '@/app/ui/skeletons';
+import CardWrapper, { Card } from "@/app/ui/dashboard/cards";
+import RevenueChart from "@/app/ui/dashboard/revenue-chart";
+import LatestInvoices from "@/app/ui/dashboard/latest-invoices";
+import { lusitana } from "@/app/ui/fonts";
+//import {  fetchCardData } from '@/app/lib/data' ; fetchRevenue, fetchLatestInvoices,
+import { Suspense } from "react";
+import {
+  RevenueChartSkeleton,
+  LatestInvoicesSkeleton,
+  CardsSkeleton,
+} from "@/app/ui/skeletons";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 export default async function Page() {
-//    const revenue = await fetchRevenue();
-    //const latestInvoices = await fetchLatestInvoices();
+  //    const revenue = await fetchRevenue();
+  //const latestInvoices = await fetchLatestInvoices();
 
-    /* const {
+  /* const {
       numberOfInvoices,
       numberOfCustomers,
       totalPaidInvoices,
       totalPendingInvoices,
     } = await fetchCardData();
   */
-    return (
+  return (
     <main>
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Dashboard
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-         {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> 
+        {/* <Card title="Collected" value={totalPaidInvoices} type="collected" /> 
          <Card title="Pending" value={totalPendingInvoices} type="pending" /> 
          <Card title="Total Invoices" value={numberOfInvoices} type="invoices"/>
          <Card
@@ -37,12 +45,11 @@ export default async function Page() {
         </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-
-       {/* Aunque hemos usado el sistema de rutas agrupados "(overview)" el Loading sigue afectando a Page.tsx pero 
+        {/* Aunque hemos usado el sistema de rutas agrupados "(overview)" el Loading sigue afectando a Page.tsx pero 
        en este caso se extrae el los componentes Skeleton para las partes a las que se 
        se quiere envolver a traves de suspense */}
-      <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart /> 
+        <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
         </Suspense>
         <Suspense fallback={<LatestInvoicesSkeleton />}>
           <LatestInvoices />

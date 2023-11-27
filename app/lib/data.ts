@@ -1,3 +1,7 @@
+// this pages is a server function for 
+// fetching data from the database.
+// also is only 'use server'
+
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
 import {
@@ -14,7 +18,7 @@ import { formatCurrency } from './utils';
 export async function fetchRevenue() {
   // Add noStore() here prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
-  noStore();
+  noStore();// Add noStore() here prevent the response from being cached.
 
   try {
     // Artificially delay a reponse for demo purposes.
@@ -35,7 +39,7 @@ export async function fetchRevenue() {
 }
 
 export async function fetchLatestInvoices() {
-  noStore();
+  noStore(); // Add noStore() here prevent the response from being cached.
   try {
     //await new Promise((resolve) => setTimeout(resolve, 7000)); // Artificially delay a response for demo purposes.
     const data = await sql<LatestInvoiceRaw>`
@@ -174,7 +178,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-
+    //console.log(invoice);
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
